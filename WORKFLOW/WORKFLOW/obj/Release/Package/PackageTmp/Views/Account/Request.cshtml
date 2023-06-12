@@ -1,0 +1,261 @@
+﻿@model WORKFLOW.Models.Loginmodel
+
+@{
+    ViewBag.Title = "Request";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Request</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            color: #212529;
+            background-image: url('https://img.freepik.com/premium-vector/vector-seamless-blue-pattern-with-line-envelopes_182787-1331.jpg?w=740'); /* Replace with your image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            margin-top: 5px;
+        }
+
+        .row {
+            justify-content: center;
+        }
+
+        mb-3 {
+            justify-content: center;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: darkblue;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: red;
+            color: #808080;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px;
+        }
+
+            .navbar a {
+                color: #ced4da;
+                font-size: 14px;
+                margin-left: 10px;
+                text-decoration: none;
+            }
+
+        .logout-icon {
+            margin-right: 5px;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <main>
+        <nav class="navbar">
+
+            @*  <a href="~/Account/Login" class="logout">
+                    <svg class="logout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                        <path d="M19 12H8.41l2.3-2.29a1 1 0 0 0-1.42-1.42l-4 4a1 1 0 0 0 0 1.42l4 4a1 1 0 0 0 1.42-1.42L8.41 13H19a1 1 0 0 0 0-2z" />
+                    </svg>
+                    Logout
+                </a>*@
+        </nav>
+
+        <section class="row" aria-labelledby="leaveEmailTitle">
+            <div class="col-md-5">
+                @using (Html.BeginForm("SendEmail", "Account", FormMethod.Post, new { id = "emailForm", enctype = "multipart/form-data" }))
+                {<a href="~/Account/Index" class="btn btn-secondary" style="margin-bottom: 10px;">Back</a>
+
+
+                    <div class="mb-3">
+                        <label for="emailToInput" class="form-label">Email to</label>
+                        <input type="email" class="form-control" id="emailToInput" name="EmailTo" placeholder="Enter recipient email">
+                        <span class="text-danger" id="emailToError"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ccInput" class="form-label">CC</label>
+                        <input type="email" class="form-control" id="ccInput" name="CC" placeholder="Enter CC email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="subjectInput" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subjectInput" name="Subject" placeholder="Enter email subject">
+                        <span class="text-danger" id="subjectError"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fromDateInput" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="fromDateInput" name="FromDate" placeholder="Select from date" autocomplete="off">
+                        <span class="text-danger" id="fromDateError"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="toDateInput" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="toDateInput" name="ToDate" placeholder="Select to date" autocomplete="off">
+                        <span class="text-danger" id="toDateError"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageTextarea" class="form-label">Message</label>
+                        <textarea class="form-control" id="messageTextarea" name="Message" rows="5"></textarea>
+                        <span class="text-danger" id="messageError"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="attachmentInput" class="form-label">Attachment</label>
+                        <input type="file" class="form-control" id="attachmentInput" name="attachment" accept=".pdf, .doc, .docx, .jpg, .jpeg, .png">
+                        <span class="text-danger" id="attachmentError"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Email</button>
+                }
+            </div>
+        </section>
+    </main>
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Email Sent Successfully</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Your email has been sent successfully.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+$(document).ready(function () {
+    // Handle form submission
+    $('#emailForm').submit(function (e) {
+        e.preventDefault(); // Prevent the form from submitting by default
+
+        // Clear any previous error messages
+        $('.text-danger').empty();
+
+        // Perform form validation
+        var isValid = true;
+
+        if ($('#emailToInput').val().trim() === '') {
+            $('#emailToError').text('Email to is required');
+            isValid = false;
+        }
+
+        if ($('#subjectInput').val().trim() === '') {
+            $('#subjectError').text('Subject is required');
+            isValid = false;
+        }
+
+        if ($('#fromDateInput').val().trim() === '') {
+            $('#fromDateError').text('From Date is required');
+            isValid = false;
+        }
+
+        if ($('#toDateInput').val().trim() === '') {
+            $('#toDateError').text('To Date is required');
+            isValid = false;
+        }
+
+        if ($('#messageTextarea').val().trim() === '') {
+            $('#messageError').text('Message is required');
+            isValid = false;
+        }
+
+        // Compare From Date and To Date
+        var fromDate = new Date($('#fromDateInput').val());
+        var toDate = new Date($('#toDateInput').val());
+
+        if (fromDate > toDate) {
+            $('#fromDateError').text('From Date must be smaller than To Date');
+            isValid = false;
+        }
+
+        if (isValid) {
+            // Prepare form data for AJAX request
+            var formData = new FormData(this);
+
+            // Remove the CC field from the form data if it is empty
+            if ($('#ccInput').val().trim() === '') {
+                formData.delete('CC');
+            }
+
+            // Send the email using AJAX
+            $.ajax({
+                url: '@Url.Action("SendEmail", "Account")',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    // Show the success modal popup
+                    $('#successModal').modal('show');
+                },
+                error: function () {
+                    // Handle error case
+                    alert('An error occurred while sending the email. Please try again.');
+                }
+            });
+        }
+    });
+
+    // Handle modal close event
+    $('#successModal').on('hidden.bs.modal', function () {
+        // Redirect to the index page
+        window.location.href = '@Url.Content("~/Account/Index")';
+    });
+});
+    </script>
+
+</body>
+</html>
